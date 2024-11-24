@@ -1,6 +1,8 @@
 package sg.nus.edu.iss.vttp5a_ssf_day15l_mine.model;
 
-public class Person {
+import java.io.Serializable;
+
+public class Person implements Serializable {
     private String identifier;
     private String id;
     private String fullName;

@@ -13,28 +13,24 @@ public class PersonService {
     @Autowired
     PersonRepo personRepo;
 
-    public List<Person> getPersonsList(){
-        return personRepo.getPersonsList();
+    public List<Person> getPersonsList(String key){
+        return personRepo.getPersonsList(key);
     }
 
-    public boolean addPersons(Person person){
-        return personRepo.addPersons(person);
+    public void addPerson(String key, Person person){
+        personRepo.addPerson(key, person);
     }
 
-    public Person findPersonById(String id){
-        return personRepo.findPersonById(id);
+    public Person findPersonByIdentifier(String key, String identifier){
+        return personRepo.findPersonByIdentifier(key, identifier);
     }
 
-    public void setPersonsList(List<Person> persons){
-        personRepo.setPersonsList(persons);
+    public void removePerson(String key, Person person){
+        personRepo.removePerson(key, person);
     }
 
-    public boolean removePerson(Person person){
-        return personRepo.removePerson(person);
-    }
-
-    public boolean updatePerson(Person person){
-        return personRepo.updatePerson(person);
+    public void updatePerson(String key, Person person){
+        personRepo.updatePerson(key, person);
     }
 
     

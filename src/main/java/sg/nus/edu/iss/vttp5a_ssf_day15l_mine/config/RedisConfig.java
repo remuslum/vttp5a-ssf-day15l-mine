@@ -6,6 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisClientConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import sg.nus.edu.iss.vttp5a_ssf_day15l_mine.model.Person;
+import sg.nus.edu.iss.vttp5a_ssf_day15l_mine.util.Utility;
 
 @Configuration
 public class RedisConfig {
@@ -38,6 +44,17 @@ public class RedisConfig {
 
         return jcf;
     }
+
+    @Bean(Utility.TEMPLATE01)
+    public RedisTemplate<String, Person> createRedisTemplate01(){
+        RedisTemplate<String, Person> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(jedisConnectionFactory());
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        return redisTemplate;
+    }
+
+
 
     
 }

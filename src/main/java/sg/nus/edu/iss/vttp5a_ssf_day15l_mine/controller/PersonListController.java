@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.nus.edu.iss.vttp5a_ssf_day15l_mine.model.Person;
 import sg.nus.edu.iss.vttp5a_ssf_day15l_mine.service.PersonService;
+import sg.nus.edu.iss.vttp5a_ssf_day15l_mine.util.Utility;
 
 @Controller
 @RequestMapping("/persons")
@@ -20,7 +21,7 @@ public class PersonListController {
 
     @GetMapping
     public String displayPersons(Model model){
-        List<Person> persons = personService.getPersonsList();
+        List<Person> persons = personService.getPersonsList(Utility.REDISKEY);
         model.addAttribute("persons",persons);
         return "PersonList";
     }

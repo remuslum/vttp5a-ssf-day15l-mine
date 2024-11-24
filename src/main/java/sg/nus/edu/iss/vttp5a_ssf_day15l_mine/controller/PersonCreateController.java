@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.nus.edu.iss.vttp5a_ssf_day15l_mine.model.Person;
 import sg.nus.edu.iss.vttp5a_ssf_day15l_mine.service.PersonService;
+import sg.nus.edu.iss.vttp5a_ssf_day15l_mine.util.Utility;
 
 @Controller
 @RequestMapping("/persons")
@@ -24,9 +25,11 @@ public class PersonCreateController {
     }
 
     @PostMapping("/create")
-    public String createPerson(Person person){
+    public String createPerson(Person person, Model model){
         Person p = new Person(person.getId(), person.getFullName(), person.getEmail());
-        personService.addPersons(p);
-        return "PersonList";
+        personService.addPerson(Utility.REDISKEY, p);
+        // List<Person> persons = personService.getPersonsList(Utility.REDISKEY);
+        // model.addAttribute("persons", persons);
+        return "redirect:/persons";
     }
 }

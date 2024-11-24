@@ -1,54 +1,54 @@
 package sg.nus.edu.iss.vttp5a_ssf_day15l_mine.repo;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import sg.nus.edu.iss.vttp5a_ssf_day15l_mine.model.Person;
+import sg.nus.edu.iss.vttp5a_ssf_day15l_mine.util.Utility;
 
 @Repository
 public class PersonRepo {
-    private List<Person> persons;
+    @Autowired
+    @Qualifier(Utility.TEMPLATE01)
+    private RedisTemplate<String, Person> redisTemplate;
 
-    public PersonRepo(){
-        this.persons = new ArrayList<>(List.of(new Person("1", "mark", "mark@abc.com"), new Person("2", "jacobs", "jacobs@abc.com"), new Person("3", "daniels", "daniels@xyz.com")));
+    // public PersonRepo(){
+    //     this.persons = new ArrayList<>(List.of(new Person("1", "mark", "mark@abc.com"), new Person("2", "jacobs", "jacobs@abc.com"), new Person("3", "daniels", "daniels@xyz.com")));
+    // }
+
+    public List<Person> getPersonsList(String key){
+        return redisTemplate.opsForList().range(key, 0, -1);
     }
 
-    public List<Person> getPersonsList(){
-        return this.persons;
+    public void addPerson(String key, Person person){
+        redisTemplate.opsForList().rightPush(key, person);
     }
 
-    public boolean addPersons(Person person){
-        return persons.add(person);
-    }
-
-    public Person findPersonById(String id){
+    public Person findPersonByIdentifier(String key, String identifier){
+        List<Person> persons = getPersonsList(key);
         Person temp = new Person();
         for(Person person: persons){
-            if(person.getIdentifier().equals(id)){
+            if(person.getIdentifier().equals(identifier)){
                 temp = person;
             }
         }
         return temp;
     }
 
-    public void setPersonsList(List<Person> persons){
-        this.persons = persons;
+    public void removePerson(String key, Person person){
+        redisTemplate.opsForList().remove(key, 1, person);
     }
 
-    public boolean removePerson(Person person){
-        return this.persons.remove(person);
-    }
-
-    public boolean updatePerson(Person person){
-        Person filteredPerson = findPersonById(person.getIdentifier());
+    public void updatePerson(String key, Person person){
+        Person filteredPerson = findPersonByIdentifier(key, person.getIdentifier());
         if(filteredPerson != null){
-            removePerson(filteredPerson);
-            addPersons(person);
-            return true;
+            removePerson(key, filteredPerson);
+            addPerson(key, person);
         }
-        return false;
     }
 
 }

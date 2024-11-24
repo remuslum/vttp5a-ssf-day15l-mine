@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sg.nus.edu.iss.vttp5a_ssf_day15l_mine.model.Person;
 import sg.nus.edu.iss.vttp5a_ssf_day15l_mine.service.PersonService;
+import sg.nus.edu.iss.vttp5a_ssf_day15l_mine.util.Utility;
 
 @Controller
 @RequestMapping("/persons")
@@ -20,14 +21,14 @@ public class PersonEditController {
 
     @GetMapping("/edit/{person-identifier}")
     public String getPerson(@PathVariable("person-identifier") String personId, Model model){
-        Person p = personService.findPersonById(personId);
+        Person p = personService.findPersonByIdentifier(Utility.REDISKEY, personId);
         model.addAttribute("person", p);
         return "PersonEdit";
     }
 
     @PostMapping("/edit")
     public String editPerson(Person person){
-        personService.updatePerson(person);
+        personService.updatePerson(Utility.REDISKEY,person);
         return "redirect:/persons";
     }
     
