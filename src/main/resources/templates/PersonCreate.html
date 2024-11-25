@@ -14,14 +14,17 @@
                 <label for="exampleInputId" class="form-label">Id</label>
                 <input type="text" class="form-control" id="exampleInputId" placeholder="Id" th:field="*{id}">
             </div>
+            <div class="text-danger" th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></div>
             <div class="mb-3">
                 <label for="exampleInputfullName" class="form-label">fullName</label>
                 <input type="text" class="form-control" id="exampleInputfullName" placeholder="Full Name" th:field="*{fullName}">
             </div>
+            <div class="text-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></div>
             <div class="mb-3">
                 <label for="exampleInputEmail" class="form-label">Email</label>
                 <input type="email" class="form-control" id="exampleInputemail" placeholder="Email" th:field="*{email}">
             </div>
+            <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>

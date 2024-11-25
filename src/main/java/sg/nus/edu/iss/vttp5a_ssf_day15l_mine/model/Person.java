@@ -2,10 +2,23 @@ package sg.nus.edu.iss.vttp5a_ssf_day15l_mine.model;
 
 import java.io.Serializable;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class Person implements Serializable {
+
     private String identifier;
+
+    @NotBlank(message = "Id cannot be blank")
     private String id;
+
+    @Size(min = 2, max = 50, message = "Full Name must be between 2 and 50 characters")
+    @NotBlank(message = "Full Name cannot be blank")
     private String fullName;
+
+    @Email(message = "Email input does not conform to email format")
+    @NotBlank(message = "Email cannot be blank")
     private String email;
 
     public Person(){
