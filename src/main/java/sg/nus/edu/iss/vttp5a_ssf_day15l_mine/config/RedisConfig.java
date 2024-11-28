@@ -39,7 +39,7 @@ public class RedisConfig {
         }
 
         JedisClientConfiguration jcc = JedisClientConfiguration.builder().build();
-        JedisConnectionFactory jcf = new JedisConnectionFactory(rsc);
+        JedisConnectionFactory jcf = new JedisConnectionFactory(rsc, jcc);
         jcf.afterPropertiesSet();
 
         return jcf;
